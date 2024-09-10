@@ -33,7 +33,9 @@ def image_detail(request, id, slug):
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
 
+@ajax_required
 @login_required
 @require_POST
 def image_like(request):
