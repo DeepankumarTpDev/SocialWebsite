@@ -48,7 +48,9 @@ def image_like(request):
                 image.users_like.add(request.user)
             else:
                 image.users_like.remove(request.user)
-            return JsonResponse({'status':'ok'})
+
+            liked_by = [{'first_name': user.first_name, 'photo_url': user.profile.photo.url} for user in image.users_like.all()]
+            return JsonResponse({'status':'ok', 'liked_by':liked_by})
         except:
             pass
     return JsonResponse({'status':'error'})

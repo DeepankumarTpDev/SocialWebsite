@@ -28,10 +28,10 @@
     </div>
     <div class="image-likes">
     {% for user in users_like %}
-    <div>
-    <img src="{{ user.profile.photo.url }}">
-    <p>{{ user.first_name }}</p>
-    </div>
+        <div>
+        <img src="{{ user.profile.photo.url }}">
+        <p>{{ user.first_name }}</p>
+        </div>
     {% empty %}
     Nobody likes this image yet.
     {% endfor %}
@@ -59,6 +59,18 @@
                     // update total likes
                     var previous_likes = parseInt($('span.count .total'). text());
                     $('span.count .total').text(previous_action == 'like' ? previous_likes + 1 : previous_likes - 1);
+
+                    // update liked by users list
+                    var user_list = $('.image-likes');
+                    user_list.empty(); // clear the current user list
+
+                    if (data.liked_by.length > 0) {
+                        $.each(data.liked_by, function(index, user){
+                            user_list.append('<div><img src="' + user.photo_url + '"><p>' + user.first_name + '</p></div>');
+                        });
+                    } else {
+                        user_list.append('<p>Nobody likes this image yet.</p>');
+                    }
                 }
             }
         );
